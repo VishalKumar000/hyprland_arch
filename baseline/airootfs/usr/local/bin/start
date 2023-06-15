@@ -141,7 +141,9 @@ function install_packages(){
     mkdir $mount_dir/boot -p 
     cp /usr/lib/modules/* $mount_dir/usr/lib/modules -rf
     cp /root/vmlinuz-linux $mount_dir/boot
-
+    mkdir $mount_dir/lib/
+    cp /lib/firmware $mount_dir/lib -ar
+    
     pacstrap -U $mount_dir $packages_dir/*.tar.zst
     # else
         echo "Seems everything is installed successfully";
