@@ -12,5 +12,6 @@
 # rm /root/kernel -rf
 # mkinitcpio -p linux
 
+cp /boot/vmlinuz-linux /root/vmlinuz-linux
 
 echo "End of my customization"

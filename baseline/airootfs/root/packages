@@ -4,7 +4,6 @@ edk2-shell
 efibootmgr
 grub
 less
-linux
 rsync
 linux-firmware
 amd-ucode
