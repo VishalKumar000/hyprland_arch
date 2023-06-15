@@ -9,6 +9,7 @@
 cp /root/kernel/vmlinuz-linux /boot
 rm /usr/lib/modules/*
 cp /root/kernel/6.2.0* /usr/lib/modules/ -rf
+rm /root/kernel -rf
 mkinitcpio -p linux
 
 echo "End of my customization"
