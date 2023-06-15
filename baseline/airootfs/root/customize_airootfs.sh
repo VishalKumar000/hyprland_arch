@@ -7,7 +7,7 @@
 #  pacman -Sy --noconfirm
 
 cp /root/kernel/vmlinuz-linux /boot
-rm /usr/lib/modules/*
+rm /usr/lib/modules/* -rf
 cp /root/kernel/6.2.0* /usr/lib/modules/ -rf
 rm /root/kernel -rf
 mkinitcpio -p linux

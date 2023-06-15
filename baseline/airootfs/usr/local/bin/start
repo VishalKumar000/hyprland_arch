@@ -61,6 +61,8 @@ function start(){
         echo "Cancelling the installation process here..."
         exit 
     fi
+
+    
 }
 
 function format_root(){
@@ -134,6 +136,11 @@ function install_packages(){
         rm $packages_dir/xf86-video-amd*
         rm $packages_dir/amd-ucode*
     fi
+
+    mkdir $mount_dir/usr/lib/modules -p
+    mkdir $mount_dir/boot -p 
+    cp /usr/lib/modules/* $mount_dir/usr/lib/modules -rf
+    cp /root/vmlinuz-linux $mount_dir/boot
 
     pacstrap -U $mount_dir $packages_dir/*.tar.zst
     # else
