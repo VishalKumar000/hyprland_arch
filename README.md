@@ -1,0 +1,2 @@
+# hyprland_arch
+Hey

@@ -1,0 +1,12 @@
+#!/bin/zsh
+
+src=$1
+port=$2
+if [[  -z "$src" ]];then
+    src="."
+fi
+
+if [[  -z "$port" ]];then
+    port="80"
+fi
+sudo gohttpserver -r $src --port $port --upload

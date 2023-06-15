@@ -1,0 +1,9 @@
+#!/bin/bash
+length=$(ls ~/.wallpapers |wc -l)
+Number=$(cat ~/.current_wallpaper)
+array=$(ls -1 ~/.wallpapers)
+IFS=$'\n' 
+imgs=($array)
+
+swww img ~/.wallpapers/${imgs[$Number]} --transition-fps 60 --transition-type wipe --transition-duration 1
+echo $((($Number+1)%$length)) > ~/.current_wallpaper

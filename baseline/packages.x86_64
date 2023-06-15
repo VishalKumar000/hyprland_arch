@@ -1,0 +1,10 @@
+base
+linux
+amd-ucode
+intel-ucode
+mkinitcpio
+mkinitcpio-archiso
+syslinux
+arch-install-scripts
+dosfstools
+neovim

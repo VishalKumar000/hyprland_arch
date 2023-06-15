@@ -1,0 +1,190 @@
+#!/usr/bin/bash
+
+
+
+config_dir='/root/data.json'
+mount_dir=$(jq '.mount_dir' $config_dir)
+root_partition=$(jq '.root_partition' $config_dir)
+packages_dir="offline_packages"
+efi_partition=$(jq '.efi_partition' $config_dir)
+username=$(jq '.username' $config_dir)
+processor=$(jq '.processor' $config_dir)
+
+eval mount_dir=$mount_dir
+eval root_partition=$root_partition
+eval efi_partition=$efi_partition
+eval username=$username
+eval processor=$processor
+
+
+
+function isUEFI(){
+    if [ -d "/sys/firmware/efi/efivars" ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+#n
+function setup_accessories(){
+
+    systemctl enable bluetooth.service
+    systemctl enable  NetworkManager
+    systemctl --user  enable pipewire pipewire-pulse wireplumber
+    systemctl enable sddm
+    chmod a+rx /etc/skel/.config/hypr/scripts/bgaction
+    chmod a+rx /etc/skel/.config/hypr/scripts/xdg-portal-hyprland
+    chmod a+rx /etc/skel/.config/waybar/scripts/waybar-wttr.py
+    chmod a+rx /etc/skel/.config/waybar/scripts/baraction
+    chmod a+rx /etc/skel/.config/waybar/scripts/brightness
+    chmod a+rx /etc/skel/.config/waybar/scripts/volume
+    # chmod a+rx /etc/skel/.config/waybar/scripts/baraction
+    chmod a+rx /etc/skel/.config/waybar/scripts/update-sys
+    
+    dir=/root/extras
+    cp $dir/grub /etc/default/grub
+    cp /etc/default/grub /etc/default/grub.bak
+    mkdir /boot/grub/themes -p
+    cp $dir/bigsur /boot/grub/themes -r
+    cp $dir/mirrorlist /etc/pacman.d/
+
+    unzip /etc/skel/.oh-my-zsh.zip -d /etc/skel
+    rm /etc/skel/.oh-my-zsh.zip
+
+
+    cp $dir/bin/* /bin -r
+    chmod +x /bin/server
+
+    
+    cp $dir/icons /usr/share -r
+    cp $dir/themes /usr/share -r
+    cp $dir/ls /usr/local/bin
+    cp $dir/wallchanger /usr/local/bin
+    cp $dir/xhost /usr/bin
+    cp $dir/jq /usr/bin
+    cp $dir/libinput-gestures.conf /usr/local/bin
+    mv /usr/bin/evince /usr/bin/evinced
+    cp $dir/evince /usr/bin/evince
+    cp $dir/sudoers /etc/
+    mkdir /usr/share/sddm/themes -p
+    cp $dir/sdt /usr/share/sddm/themes -r
+    # cp $dir/macos /usr/share/sddm/themes -r
+    mkdir /etc/sddm.conf.d
+    cp $dir/sddm.conf.d/10-theme.conf /etc/sddm.conf.d/10-theme.conf -r
+
+    chmod a+rwx /usr/local/bin/wallchanger
+    chmod a+rwx /etc/skel/.current_wallpaper
+    chmod a+rx /usr/local/bin/ls
+
+    gsettings set org.gnome.desktop.interface gtk-theme "BigSur"
+    gsettings set org.gnome.desktop.interface icon-theme "BigSur"
+    cp $dir/locale.gen /etc/locale.gen
+    
+    cp /usr/local/bin/libinput-gestures.conf /etc
+    rm /usr/local/bin/libinput-gestures.conf
+    chmod +x /usr/bin/evince
+    chmod a+x /usr/bin/xhost 
+    chmod a+x /usr/bin/jq 
+    # echo "ParallelDownloads = 20" >> /etc/pacman.conf
+    
+    rm /root/extras -rf
+    # sudo pacman-key --init
+    # sudo pacman-key --populate
+    # sudo pacman -Sy --noconfirm
+
+    ###########################settting up gestures
+  
+}
+
+
+#n
+function set_locale(){
+    # /etc/locale.gen remove en_US.UTF-8 UTF-8
+    locale-gen 
+    echo "LANG=en_US.UTF-8" > /etc/locale.conf
+}
+
+
+#n
+function create_users(){
+    eval user=$username
+    useradd -mG wheel,input $user
+    # echo -e "Please create password for $user \n\n"
+    eval user_password=$(jq '.user_password' $config_dir)
+    eval root_password=$(jq '.root_password' $config_dir)
+
+    echo "$user:$user_password" | chpasswd
+    echo -e "\n\n\n\nPlease create password for root user"
+    echo "root:$root_password" | chpasswd
+    echo "User $user is created with password"
+    chsh $user -s /bin/zsh
+    sed -i 's/^#*\(ParallelDownloads *= *\)[0-9]\+$/\1 20/' /etc/pacman.conf
+
+    # mkdir /home/$username/.local/share/systemd/user/ -p
+    # cp /root/extras/libinput.service /home/$username/.local/share/systemd/user/
+
+    # mkdir /home/$username/.config/systemd/user/default.target.wants -p
+    # ln -sf /home/$username/.local/share/systemd/user/libinput.service /home/$username/.config/systemd/user/default.target.wants/libinput.service
+    
+}
+
+function instal_plymouth(){
+    plymouth-set-default-theme -R aregression
+}
+
+#n
+function install_grub(){
+    eval name=$(jq '.bootloader_name' $config_dir)
+    eval search=$(jq '.search_for_other_os' $config_dir)
+    cp /etc/default/grub.bak /etc/default/grub
+    
+
+    if isUEFI;then
+        grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=$name && grub-mkconfig -o /boot/grub/grub.cfg && echo "Everything is done successfully" 
+        
+    else
+        par=$(jq '.bios_bootloader_partition' $config_dir)
+        grub-install --target=i386-pc $par
+        echo "for bios support is not added yet..."
+    fi
+
+    if [[ "$search" == "yes" ]];then
+        #copy here
+        cp /etc/default/grub.bak /etc/default/grub
+        echo "GRUB_DISABLE_OS_PROBER='false'" >> /etc/default/grub
+        grub-mkconfig -o /boot/grub/grub.cfg
+
+    else
+        cp /etc/default/grub.bak /etc/default/grub
+    fi
+
+    echo "Seem everything installed successfully"
+
+    if [[ "$search" == "yes" ]];then
+        echo "Everything is done already.Have fun"
+    else 
+        echo -e "\n\nSearching for other os may cause problem.\nIf the program stuck,long press power key to shutdown.\nEverything is already installed so no worry"
+        read -p "Do you want to try to search other os(y|n): " choice
+        if [[ "$choice" == "y" ]];then
+            cp /etc/default/grub.bak /etc/default/grub
+            echo "GRUB_DISABLE_OS_PROBER='false'" >> /etc/default/grub
+            grub-mkconfig -o /boot/grub/grub.cfg
+        fi
+        
+    fi
+    echo "I hope everything is installed then reboot pressing power button" 
+    read -p "Do you want to reboot (y|n): " choice
+    if [[ "$choice" == "y" ]];then
+        exit
+        reboot
+    fi
+    exit
+}
+
+setup_accessories
+# install_kernel
+set_locale
+create_users
+instal_plymouth
+install_grub
+

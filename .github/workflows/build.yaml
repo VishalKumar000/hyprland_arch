@@ -1,0 +1,159 @@
+# GHW workflow to build metislinux iso 
+name: build metis iso per release
+on:
+  push:
+
+env:
+  api_key: ${{ secrets.GITHUB_TOKEN }}
+  name: ${{ github.event.repository.name }}
+  release_name: ${{ github.ref_name }}
+jobs:
+#   build_standard:
+#     runs-on: ubuntu-latest
+
+#     container:
+#       image: archlinux:latest
+#       options: --privileged
+
+      
+#     steps:
+#       # - name: Cloning the repository! please wait...
+#       - uses: actions/checkout@v3
+#       - name: Creating a nobody user with access to pacman with no pass
+#         run: |
+#           echo "nobody ALL = NOPASSWD: /usr/bin/pacman" >> /etc/sudoers
+#           echo "root ALL=(ALL:ALL) ALL" >> /etc/sudoers
+#           usermod -aG wheel nobody
+
+#       - name: Installing dependency needed for makepkg
+#         run: pacman --noconfirm -Sy git base-devel unzip sudo fakeroot
+      
+
+#       - name: Cloning the chrome and vscode aur repo
+#         run: |
+#           git clone https://aur.archlinux.org/google-chrome.git
+#           git clone https://aur.archlinux.org/visual-studio-code-bin.git
+
+
+#       - name: Adding permission to directory for nobody user 
+#         run:  chmod ugo+rwx google-chrome visual-studio-code-bin
+
+
+#       - name: Building chrome and vscode with makepkg
+#         run: |
+#             cd google-chrome
+#             sudo -u nobody makepkg -s --noconfirm
+
+#             cd ../visual-studio-code-bin
+#             sudo -u nobody makepkg -s --noconfirm
+
+#       - name: creating a local repo for pacman of chrome and vscode
+#         run: |
+#             cp google-chrome/google-chrome*.tar.zst releng/local/repo
+#             repo-add releng/local/repo/mydb.db.tar.gz releng/local/repo/google-chrome*.tar.zst
+
+#             cp visual-studio-code-bin/visual-studio-code-bin*.tar.zst releng/local/repo
+#             repo-add releng/local/repo/mydb.db.tar.gz releng/local/repo/visual-studio-code-bin*.tar.zst
+
+
+#       - name: Configuring oh-my-zsh for zsh autosyntax high/sugg
+#         run: |
+#             unzip releng/airootfs/etc/skel/.oh-my-zsh.zip -d releng/airootfs/etc/skel
+#             rm releng/airootfs/etc/skel/.oh-my-zsh.zip
+
+
+
+#       - name: Installing archiso for buiding iso
+#         run: pacman --noconfirm -S archiso
+
+#       - name: adding mirrors mirrors
+#         run: cat releng/local/mirrorlist > /etc/pacman.d/mirrorlist
+
+
+#       - name: Building  image may takes up to 25 minutes..
+#         run: |
+#           echo "google-chrome" >> releng/packages.x86_64
+#           echo "visual-studio-code-bin" >> releng/packages.x86_64
+#           echo "obs-studio" >> releng/packages.x86_64
+#           echo "gcc" >> releng/packages.x86_64
+#           echo "vlc" >> releng/packages.x86_64
+#           mkdir iso
+
+#           cp releng/airootfs/root/mkarchiso /usr/bin/
+#           chmod +x /usr/bin/mkarchiso
+
+#           mkarchiso -vw iso -o iso releng
+#           echo "NOW=$(date +'%Y%m%d')" >> $GITHUB_ENV
+#           echo "File=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
+#           echo "TAG=$(date +'%Y%h%d-%H%M')" >> $GITHUB_ENV
+
+#       - name: Uploading image to releases
+#         uses: svenstaro/upload-release-action@v2
+
+#         with:
+#           repo_token: ${{ secrets.GITHUB_TOKEN }}
+#           file: ./iso/archlinux-${{env.File}}-x86_64.iso
+#           asset_name: archlinux-standard-${{env.File}}-x86_64.iso
+#           tag: ArchLinux-${{ env.NOW}}
+#           overwrite: true 
+#           body: This is the release of arch linux iso on ${{env.File}}
+
+
+#################################################
+
+
+  build_minimum:
+    runs-on: ubuntu-latest
+
+    container:
+      image: archlinux:latest
+      options: --privileged
+
+      
+    steps:
+      # - name: Cloning the repository! please wait...
+      - uses: actions/checkout@v3
+
+      - name: Installing archiso
+        run: |
+            echo "[mydb]" >> /etc/pacman.conf
+            echo "SigLevel = Optional TrustAll" >> /etc/pacman.conf
+            echo "Server = file:///__w/hyprland_arch/hyprland_arch/baseline/local/repo" >> /etc/pacman.conf
+
+            pacman -Sy unzip zip archiso --noconfirm
+        
+
+      - name: getting all packages fully offline
+        run: |
+              # rm /var/cache/pacman/pkg/*
+            
+              mkdir tiger
+              pacstrap tiger --noconfirm  $(cat baseline/airootfs/root/packages)||pacstrap tiger --noconfirm  $(cat baseline/airootfs/root/packages)||pacstrap tiger --noconfirm  $(cat baseline/airootfs/root/packages)||pacstrap tiger --noconfirm  $(cat baseline/airootfs/root/packages)
+              cp tiger/var/cache/pacman/pkg/*.tar.zst baseline/airootfs/root/offline_packages
+
+      # - name: adding mirrors mirrors
+      #   run: cat releng/local/mirrorlist > /etc/pacman.d/mirrorlist
+
+      - name: Building  image may takes up to 25 minutes..
+        run: |
+          
+          cp baseline/airootfs/root/mkarchiso /usr/bin/
+          chmod +x /usr/bin/mkarchiso
+          
+          mkdir iso
+          mkarchiso -vw iso -o iso baseline
+          echo "NOW=$(date +'%Y%m%d')" >> $GITHUB_ENV
+          echo "File=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
+          echo "TAG=$(date +'%Y%h%d-%H%M')" >> $GITHUB_ENV
+
+      - name: Uploading image to releases
+        uses: svenstaro/upload-release-action@v2
+
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./iso/archlinux-baseline-${{env.File}}-x86_64.iso
+          asset_name: archlinux-baseline-${{env.File}}-x86_64.iso
+          tag: ArchLinux-${{ env.NOW}}
+          overwrite: true 
+          body: This is the release of arch linux iso on ${{env.File}}
+

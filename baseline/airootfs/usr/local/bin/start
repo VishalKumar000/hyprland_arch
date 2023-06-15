@@ -1,0 +1,190 @@
+#!/usr/bin/bash
+
+config_dir='/root/data.json'
+mount_dir=$(jq '.mount_dir' $config_dir)
+root_partition=$(jq '.root_partition' $config_dir)
+packages_dir="offline_packages"
+efi_partition=$(jq '.efi_partition' $config_dir)
+username=$(jq '.username' $config_dir)
+processor=$(jq '.processor' $config_dir)
+
+eval processor=$processor
+eval mount_dir=$mount_dir
+eval root_partition=$root_partition
+eval efi_partition=$efi_partition
+eval swap_partition=$(jq '.swap_partition' $config_dir)
+
+function isUEFI(){
+    if [ -d "/sys/firmware/efi/efivars" ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+#y
+
+
+function separate_home(){
+    eval separate_home=$(jq 'separate_home'  $config_dir)
+    eval separate_home_partition=$(jq 'separate_home_partition' $config_dir)
+    eval separate_home_format=$(jq 'separate_home_format' $config_dir)
+
+    if [[ "$separate_home"=="yes" ]];then
+        if [[ "$separate_home_format" =="yes" ]];then
+            mkfs.ext4 $separate_home_partition -F
+        fi
+        mount $separate_home_partition /home --mkdir && uuid=$(blkid $separate_home_partition | cut -d " " -f2 | sed "s/\"//g") && echo "$uuid     /home   ext4    defaults    0   2  " >> /etc/fstab
+    fi
+}
+
+
+
+
+function start(){
+    echo "$(jq '.' $config_dir)"
+    echo ""
+    eval swap_format=$(jq '.swap_format' $config_dir)
+    read -p "Are you sure want to install at $root_partition (y|n): " choice
+    if [[ "$choice" == "yes" ]];then
+
+        if [[ ! "$swap_partition" == "" ]];then
+            read -p "Do you want to create swap in $swap_partition(y|n): " choice
+            if [[ "$choice" == "yes" ]];then
+                if [[ "$swap_format" =="yes" ]];then 
+                    mkswap $swap_partition
+                fi
+            swapon $swap_partition
+            fi
+        fi
+
+    else
+        echo "Cancelling the installation process here..."
+        exit 
+    fi
+}
+
+function format_root(){
+
+
+    # read -p "Do you want to format $root_partition (yes|n): " choice
+    eval format=$(jq '.root_format' $config_dir)
+
+    if [[ "$format" == "yes" ]];then
+        mkfs.ext4 $root_partition -F
+    else
+        echo "Installing without formating the partition"
+    fi
+}
+#y
+function format_efi(){
+
+
+    # read -p "Do you want to format $efi_partition (yes|n): " choice
+    if isUEFI;then
+        eval format=$(jq '.efi_format' $config_dir)
+
+        if [[ "$format" == "yes" ]];then
+            mkfs.fat -F 32 $efi_partition
+        else
+            echo "Installing without formating the partition"
+        fi
+    fi
+}
+
+#y
+function set_fstab(){
+  
+    genfstab -U $mount_dir >> "$mount_dir/etc/fstab"
+    separate_home
+
+}
+#y
+function start_chroot(){
+    arch-chroot $mount_dir /root/chroot_install
+
+}
+
+#y
+function set_timezone(){
+    ln -sf /usr/share/zoneinfo/Asia/Kathmandu $mount_dir/etc/localtime
+    hwclock --systohc
+
+}
+
+
+#y
+function set_hostname(){
+    echo $(jq '.hostname' $config_dir) > $mount_dir/etc/hostname
+
+}
+
+#y
+function install_packages(){
+    mount_root
+
+    # read -p "Are you sure want to install in $root_partition at $mount_dir (yes|n): " choice
+
+    # if [[ "$choice"=="yes" ]]; then
+    if [[ "$processor" == "amd" ]];then
+        rm $packages_dir/xf86-video-intel*
+        rm $packages_dir/intel-ucode*
+    fi
+    
+    if [[ "$processor" == "intel" ]];then
+        rm $packages_dir/xf86-video-amd*
+        rm $packages_dir/amd-ucode*
+    fi
+
+    pacstrap -U $mount_dir $packages_dir/*.tar.zst
+    # else
+        echo "Seems everything is installed successfully";
+    # fi
+
+
+}
+
+#y
+function mount_efi(){
+    if isUEFI;then
+        mount --mkdir $efi_partition $mount_dir/boot/efi
+    fi
+}
+
+#y
+function mount_root(){
+
+    mount  $root_partition $mount_dir
+    
+}
+
+
+
+#y
+function copy_before_chroot(){
+  mount_efi
+  cp /root/extras/ $mount_dir/root/ -r 
+  cp /usr/bin/jq $mount_dir/usr/bin
+  chmod a+x $mount_dir/usr/bin/jq  
+  cp /root/data.json $mount_dir/root
+  cp /root/chroot_install $mount_dir/root
+  chmod +x  $mount_dir/root/chroot_install
+  cp /etc/skel $mount_dir/etc/ -r
+  cp /root/extras/mkinitcpio.conf $mount_dir/etc/
+
+#   kernel=$(uname -r)
+#   cp /usr/lib/modules/$kernel/vmlinuz $mount_dir/boot/vmlinuz-linux 
+#   cp /etc/mkinitcpio.d $mount_dir/etc -r
+#   cp /etc/mkinitcpio.conf $mount_dir/etc
+}
+
+start
+format_root
+format_efi
+install_packages
+set_fstab
+set_hostname
+set_timezone
+copy_before_chroot
+start_chroot
+
+echo $mount_dir
