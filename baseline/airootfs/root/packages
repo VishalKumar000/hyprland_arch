@@ -5,6 +5,7 @@ efibootmgr
 grub
 less
 rsync
+linux-headers
 linux-firmware
 amd-ucode
 intel-ucode
