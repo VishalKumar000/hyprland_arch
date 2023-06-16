@@ -1,6 +1,11 @@
 {
     "efi_partition":"/dev/nvme0n1p1",
+    "bios_bootloader_partition":"/dev/sda",
     "efi_format":"no",
+
+    "bootloader_name":"HyprlandArch",
+    "search_for_other_os":"no",
+
 
     "root_partition":"/dev/nvme0n1p2",
     "root_format":"yes",
@@ -11,19 +16,16 @@
 
     "swap_partition":"",
     "swap_format":"no",
+
     "processor":"amd",
 
     "mount_dir":"/mnt",
 
-    "bootloader_name":"HyprlandArch",
-    "bios_bootloader_partition":"/dev/sd",
-    "search_for_other_os":"no",
 
     "hostname":"cat",
-    
     "username":"cat",
-    "user_password":"root",
 
+    "user_password":"root",
     "root_password":"root"
 }
 
