@@ -25,12 +25,12 @@ function isUEFI(){
 
 
 function separate_home(){
-    eval separate_home=$(jq 'separate_home'  $config_dir)
-    eval separate_home_partition=$(jq 'separate_home_partition' $config_dir)
-    eval separate_home_format=$(jq 'separate_home_format' $config_dir)
+    eval separate_home=$(jq '.separate_home'  $config_dir)
+    eval separate_home_partition=$(jq '.separate_home_partition' $config_dir)
+    eval separate_home_format=$(jq '.separate_home_format' $config_dir)
 
     if [[ "$separate_home"=="yes" ]];then
-        if [[ "$separate_home_format" =="yes" ]];then
+        if [[ "$separate_home_format"=="yes" ]];then
             mkfs.ext4 $separate_home_partition -F
         fi
         mount $separate_home_partition /home --mkdir && uuid=$(blkid $separate_home_partition | cut -d " " -f2 | sed "s/\"//g") && echo "$uuid     /home   ext4    defaults    0   2  " >> /etc/fstab
@@ -50,7 +50,7 @@ function start(){
         if [[ ! "$swap_partition" == "" ]];then
             read -p "Do you want to create swap in $swap_partition(y|n): " choice
             if [[ "$choice" == "yes" ]];then
-                if [[ "$swap_format" =="yes" ]];then 
+                if [[ "$swap_format"=="yes" ]];then 
                     mkswap $swap_partition
                 fi
             swapon $swap_partition
@@ -137,10 +137,10 @@ function install_packages(){
         rm $packages_dir/amd-ucode*
     fi
 
-    mkdir $mount_dir/usr/lib/modules -p
-    mkdir $mount_dir/boot -p 
-    cp /usr/lib/modules/* $mount_dir/usr/lib/modules -rf
-    cp /root/vmlinuz-linux $mount_dir/boot
+    # mkdir $mount_dir/usr/lib/modules -p
+    # mkdir $mount_dir/boot -p 
+    # cp /usr/lib/modules/* $mount_dir/usr/lib/modules -rf
+    # cp /root/vmlinuz-linux $mount_dir/boot
  
     pacstrap -U $mount_dir $packages_dir/*.tar.zst
     # else

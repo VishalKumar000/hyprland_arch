@@ -143,7 +143,7 @@ function install_grub(){
         grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=$name && grub-mkconfig -o /boot/grub/grub.cfg && echo "Everything is done successfully" 
         
     else
-        par=$(jq '.bios_bootloader_partition' $config_dir)
+        eval par=$(jq '.bios_bootloader_partition' $config_dir)
         grub-install --target=i386-pc $par
         echo "for bios support is not added yet..."
     fi
