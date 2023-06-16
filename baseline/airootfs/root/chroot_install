@@ -144,8 +144,7 @@ function install_grub(){
         
     else
         eval par=$(jq '.bios_bootloader_partition' $config_dir)
-        grub-install --target=i386-pc $par
-        echo "for bios support is not added yet..."
+        grub-install --target=i386-pc $par && grub-mkconfig -o /boot/grub/grub.cfg && echo "Everything is done successfully" 
     fi
 
     if [[ "$search" == "yes" ]];then
