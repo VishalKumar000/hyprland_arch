@@ -45,11 +45,11 @@ function start(){
     echo ""
     eval swap_format=$(jq '.swap_format' $config_dir)
     read -p "Are you sure want to install at $root_partition (y|n): " choice
-    if [[ "$choice" == "yes" ]];then
+    if [[ "$choice" == "y" ]];then
 
         if [[ ! "$swap_partition" == "" ]];then
             read -p "Do you want to create swap in $swap_partition(y|n): " choice
-            if [[ "$choice" == "yes" ]];then
+            if [[ "$choice" == "y" ]];then
                 if [[ "$swap_format"=="yes" ]];then 
                     mkswap $swap_partition
                 fi
