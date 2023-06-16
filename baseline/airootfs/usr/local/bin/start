@@ -33,9 +33,7 @@ function separate_home(){
         if [[ "$separate_home_format"=="yes" ]];then
             mkfs.ext4 $separate_home_partition -F
         fi
-        mount $separate_home_partition /home --mkdir 
-        uuid=$(blkid $separate_home_partition | cut -d " " -f2 | sed "s/\"//g")
-        echo "$uuid     /home   ext4    defaults    0   2  " >> /etc/fstab
+        mount $separate_home_partition /home --mkdir && uuid=$(blkid $separate_home_partition | cut -d " " -f2 | sed "s/\"//g") && echo "$uuid     /home   ext4    defaults    0   2  " >> $mount_dir/etc/fstab
     fi
 }
 
