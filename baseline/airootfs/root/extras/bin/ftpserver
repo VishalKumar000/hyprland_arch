@@ -1,0 +1,6 @@
+#!/bin/zsh
+
+address=$(ip  -4 -o address show | cut -d " " -f 2,7 | sed "s/\(.*\) \(.*\)\/.*/\1 => \2/")
+echo "\n$address\n"
+
+ftp -conf /bin/ftpserver.json

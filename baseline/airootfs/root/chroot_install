@@ -53,8 +53,10 @@ function setup_accessories(){
 
 
     cp $dir/bin/* /bin -r
-    chmod +x /bin/server
-
+    chmod +x /bin/webserver
+    chmod +x /bin/ftp
+    chmod +x /bin/ftpserver
+    chmod a+rwx /bin/ftpserver.json
     
     cp $dir/icons /usr/share -r
     cp $dir/themes /usr/share -r
@@ -172,11 +174,7 @@ function install_grub(){
         
     fi
     echo "I hope everything is installed then reboot pressing power button" 
-    read -p "Do you want to reboot (y|n): " choice
-    if [[ "$choice" == "y" ]];then
-        exit
-        reboot
-    fi
+   
     exit
 }
 
