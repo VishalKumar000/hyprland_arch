@@ -2,7 +2,7 @@
   "version": 1,
   "accesses": [
     {
-      "user": "cat",
+      "user": "root",
       "pass": "root",
       "fs": "os",
       "params": {
