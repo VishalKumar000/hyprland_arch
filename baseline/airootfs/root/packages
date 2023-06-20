@@ -28,6 +28,7 @@ gnome-notes
 file-roller
 neovim
 zsh
+xdotool
 fakeroot
 os-prober
 networkmanager
