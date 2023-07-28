@@ -110,4 +110,5 @@ qt5-quickcontrols2
 qt5-svg
 gobject-introspection 
 git
-
+vlc
+code
