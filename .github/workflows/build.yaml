@@ -129,7 +129,7 @@ jobs:
           usermod -aG wheel nobody
 
       - name: Installing dependency needed for makepkg
-        run: pacman --noconfirm  git base-devel unzip sudo fakeroot
+        run: pacman -S --noconfirm  git base-devel unzip sudo fakeroot
       
 
       - name: Cloning the chrome and vscode aur repo
