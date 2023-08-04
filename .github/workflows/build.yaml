@@ -122,7 +122,34 @@ jobs:
 
             pacman -Sy unzip zip archiso --noconfirm
         
+      - name: Creating a nobody user with access to pacman with no pass
+        run: |
+          echo "nobody ALL = NOPASSWD: /usr/bin/pacman" >> /etc/sudoers
+          echo "root ALL=(ALL:ALL) ALL" >> /etc/sudoers
+          usermod -aG wheel nobody
 
+      - name: Installing dependency needed for makepkg
+        run: pacman --noconfirm  git base-devel unzip sudo fakeroot
+      
+
+      - name: Cloning the chrome and vscode aur repo
+        run: |
+          git clone https://aur.archlinux.org/google-chrome.git
+
+
+      - name: Adding permission to directory for nobody user 
+        run:  chmod ugo+rwx google-chrome
+
+
+      - name: Building chrome with makepkg
+        run: |
+            cd google-chrome
+            sudo -u nobody makepkg -s --noconfirm
+
+      - name: creating a local repo for pacman of chrome and vscode
+        run: |
+            cp google-chrome/google-chrome*.tar.zst baseline/airootfs/root/offline_packages
+   
       - name: getting all packages fully offline
         run: |
               # rm /var/cache/pacman/pkg/*
