@@ -178,6 +178,7 @@ function install_grub(){
     exit
 }
 
+timedatectl set-ntp true
 setup_accessories
 # install_kernel
 set_locale
