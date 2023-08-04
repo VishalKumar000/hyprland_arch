@@ -129,10 +129,10 @@ jobs:
           usermod -aG wheel nobody
 
       - name: Installing dependency needed for makepkg
-        run: pacman -S --noconfirm  git base-devel unzip sudo fakeroot
+        run: pacman -S --noconfirm  git base-devel  sudo fakeroot
       
 
-      - name: Cloning the chrome and vscode aur repo
+      - name: Cloning the chrome
         run: |
           git clone https://aur.archlinux.org/google-chrome.git
 
@@ -146,7 +146,7 @@ jobs:
             cd google-chrome
             sudo -u nobody makepkg -s --noconfirm
 
-      - name: creating a local repo for pacman of chrome and vscode
+      - name: creating a local repo for pacman of chrome
         run: |
             cp google-chrome/google-chrome*.tar.zst baseline/airootfs/root/offline_packages
    
