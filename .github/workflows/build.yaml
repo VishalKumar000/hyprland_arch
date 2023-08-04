@@ -120,7 +120,7 @@ jobs:
             echo "SigLevel = Optional TrustAll" >> /etc/pacman.conf
             echo "Server = file:///__w/hyprland_arch/hyprland_arch/baseline/local/repo" >> /etc/pacman.conf
 
-            pacman -Sy unzip zip archiso --noconfirm
+            pacman -Syyuu unzip zip archiso --noconfirm
         
       - name: Creating a nobody user with access to pacman with no pass
         run: |
