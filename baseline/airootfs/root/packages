@@ -112,3 +112,5 @@ gobject-introspection
 git
 vlc
 code
+libxss
+ttf-liberation
