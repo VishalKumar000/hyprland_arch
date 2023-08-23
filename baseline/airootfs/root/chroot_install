@@ -52,7 +52,8 @@ function setup_accessories(){
     rm /etc/skel/.oh-my-zsh.zip
 
 
-    cp $dir/bin/* /bin -r
+   
+   cp $dir/bin/* /bin -r
     chmod +x /bin/webserver
     chmod +x /bin/ftp
     chmod +x /bin/ftpserver
