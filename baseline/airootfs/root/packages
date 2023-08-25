@@ -114,3 +114,9 @@ vlc
 code
 libxss
 ttf-liberation
+
+
+sof-firmware
+alsa-firmware
+alsa-ucm-firmware
+ntfs-3g
