@@ -118,5 +118,5 @@ ttf-liberation
 
 sof-firmware
 alsa-firmware
-alsa-ucm-firmware
+alsa-ucm-conf
 ntfs-3g
