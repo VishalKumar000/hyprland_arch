@@ -42,6 +42,7 @@ function setup_accessories(){
     chmod a+rx /etc/skel/.config/waybar/scripts/update-sys
     echo "127.0.0.1    localhost" > /etc/hosts
     dir=/root/extras
+    cp $dir/hyprland.desktop /usr/share/wayland-sessions/
     cp $dir/grub /etc/default/grub
     cp /etc/default/grub /etc/default/grub.bak
     mkdir /boot/grub/themes -p
@@ -179,11 +180,11 @@ function install_grub(){
     exit
 }
 
-timedatectl set-ntp true
 setup_accessories
 # install_kernel
 set_locale
 create_users
+timedatectl set-ntp true
 instal_plymouth
 install_grub
 
