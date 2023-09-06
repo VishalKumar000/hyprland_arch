@@ -180,6 +180,7 @@ function install_grub(){
     exit
 }
 
+
 setup_accessories
 # install_kernel
 set_locale
