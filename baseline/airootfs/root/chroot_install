@@ -181,6 +181,7 @@ function install_grub(){
 }
 
 
+
 setup_accessories
 # install_kernel
 set_locale
