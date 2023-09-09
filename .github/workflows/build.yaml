@@ -2,6 +2,8 @@
 name: build metis iso per release
 on:
   push:
+  schedule:
+   -cron: '30 5 * * *'
 
 env:
   api_key: ${{ secrets.GITHUB_TOKEN }}
