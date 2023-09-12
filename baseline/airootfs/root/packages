@@ -6,6 +6,7 @@ grub
 less
 rsync
 linux
+linux-lts
 linux-headers
 linux-firmware
 amd-ucode
