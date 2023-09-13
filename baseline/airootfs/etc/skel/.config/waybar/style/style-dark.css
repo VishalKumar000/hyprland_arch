@@ -5,11 +5,13 @@
     font-weight: bold;
     font-size: 16px;
     min-height: 0;
+    /* background:#000000; */
 }
 
 window#waybar {
-    background: rgba(21, 18, 27, 0);
-    color: #cdd6f4;
+    background: rgba(0, 0, 0, 1);
+    /* border-radius:0px 0px 3px 3px; */
+    /* color: #cdd6f4; */
 }
 
 tooltip {
@@ -26,7 +28,7 @@ tooltip label{
 }
 
 #workspaces button {
-    padding: 5px;
+    padding: 3px;
     color: #a6adc8;
     margin-right: 5px;
 }
@@ -72,11 +74,11 @@ tooltip label{
 #temperature,
 #workspaces,
 #backlight {
-    background: #1e1e2e;
-    opacity: 0.8;
+    background: #000000;
+    /* opacity: 0.8; */
     padding: 0px 10px;
-    margin: 3px 0px;
-    margin-top: 10px;
+    margin: 5px 0px;
+    /* margin-top: 10px; */
     border: 0px;
 }
 
@@ -90,6 +92,14 @@ tooltip label{
 #custom-light_dark, #custom-power_btn, #workspaces, #pulseaudio.microphone, #battery, #disk {
     border-radius: 0px 10px 10px 0px;
     margin-right: 10px;
+}
+
+#temperature{
+  color:#aabbff;
+}
+
+#memory{
+  color:#ff55ff;
 }
 
 #temperature.critical {
@@ -109,9 +119,9 @@ tooltip label{
 }
 
 #window {
-    border-radius: 10px;
-    margin-left: 20px;
-    margin-right: 20px;
+    /* border-radius: 10px; */
+    /* margin-left: 20px; */
+    /* margin-right: 20px; */
 }
 
 #custom-launch_wofi {
@@ -132,6 +142,10 @@ tooltip label{
     border-right: 0px;
 }
 
+#cpu{
+  color:#33ffff;
+}
+
 #battery {
     color: #a6e3a1;
     border-left: 0px;
@@ -149,6 +163,11 @@ tooltip label{
 #network{
     border-radius: 10px;
     min-width: 250px;
+    color:#45ff90;
+}
+
+#clock{
+  color:#ff33ff;
 }
 
 #battery{
