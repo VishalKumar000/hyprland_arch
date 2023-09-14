@@ -18,6 +18,7 @@ eval processor=$processor
 
 
 
+pacman -Rdd xdg-desktop-portal --noconfirm
 function isUEFI(){
     if [ -d "/sys/firmware/efi/efivars" ]; then
         return 0
@@ -199,7 +200,6 @@ setup_accessories
 # install_kernel
 set_locale
 create_users
-timedatectl set-ntp true
 instal_plymouth
 install_grub
 
