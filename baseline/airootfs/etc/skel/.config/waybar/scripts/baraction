@@ -31,7 +31,7 @@ if [ $THEMEIS != "dark.css" ];then
 else
   # swww img ~/.wallpapers/4.jpg --transition-fps 60 --transition-type wipe --transition-duration 2
   # wallchanger
-  gsettings set org.gnome.desktop.interface gtk-theme "Adwaita"
+  gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
 fi
 #update the sddm image
 # ln -sf /usr/share/sddm/themes/sdt/Backgrounds/wallpaper$SWITCHTO.jpg /usr/share/sddm/themes/sdt/wallpaper.jpg
