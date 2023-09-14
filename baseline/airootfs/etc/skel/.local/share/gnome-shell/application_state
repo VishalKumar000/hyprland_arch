@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<application-state>
+  <context id="">
+    <application id="org.gnome.Terminal.Preferences.desktop" score="9" last-seen="1694683705"/>
+    <application id="org.gnome.Nautilus.desktop" score="36" last-seen="1694684452"/>
+    <application id="org.gnome.Settings.desktop" score="30" last-seen="1694683618"/>
+    <application id="org.gnome.Extensions.desktop" score="69" last-seen="1694683516"/>
+    <application id="google-chrome.desktop" score="64" last-seen="1694684119"/>
+    <application id="org.gnome.Terminal.desktop" score="8" last-seen="1694683855"/>
+    <application id="gnome-system-monitor.desktop" score="6" last-seen="1694530059"/>
+    <application id="code-oss.desktop" score="38" last-seen="1694684431"/>
+    <application id="org.gnome.Shell.Extensions.desktop" score="8" last-seen="1694682446"/>
+    <application id="kitty.desktop" score="43" last-seen="1694682992"/>
+    <application id="org.gnome.Epiphany.desktop" score="2" last-seen="1694679883"/>
+    <application id="org.gnome.tweaks.desktop" score="3" last-seen="1694684404"/>
+  </context>
+</application-state>

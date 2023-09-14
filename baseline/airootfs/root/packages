@@ -121,3 +121,8 @@ alsa-firmware
 alsa-ucm-conf
 ntfs-3g
 
+gnome-backgrounds
+gnome-control-center
+gnome-tweaks
+gnome-browser-connector
+gnome-shell-extensions
