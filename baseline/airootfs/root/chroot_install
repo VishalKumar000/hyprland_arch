@@ -145,10 +145,6 @@ function instal_plymouth(){
     plymouth-set-default-theme -R aregression
 }
 
-function delete_session(){
-
-    
-}
 
 #n
 function install_grub(){
