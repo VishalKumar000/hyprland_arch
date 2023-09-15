@@ -128,3 +128,6 @@ gnome-browser-connector
 gnome-shell-extensions
 xdg-user-dirs-gtk
 gnome-terminal
+
+gdm
+gdm-settings

@@ -32,7 +32,8 @@ function setup_accessories(){
     systemctl enable bluetooth.service
     systemctl enable  NetworkManager
     systemctl --user  enable pipewire pipewire-pulse wireplumber
-    systemctl enable sddm
+    # systemctl enable sddm
+    systemctl enable gdm
     chmod a+rx /etc/skel/.config/hypr/scripts/bgaction
     chmod a+rx /etc/skel/.config/hypr/scripts/xdg-portal-hyprland
     chmod a+rx /etc/skel/.config/waybar/scripts/waybar-wttr.py
