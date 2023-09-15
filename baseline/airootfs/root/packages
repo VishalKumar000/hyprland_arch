@@ -131,3 +131,7 @@ gnome-terminal
 
 gdm
 gdm-settings
+libadwaita
+glib2
+gettext
+polkit
