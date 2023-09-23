@@ -135,3 +135,7 @@ libadwaita
 glib2
 gettext
 polkit
+
+ttf-nepali-fonts
+ttf-times-new-roman
+xorg-font-utils
