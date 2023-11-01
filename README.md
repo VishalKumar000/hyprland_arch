@@ -15,28 +15,29 @@
 
 you can download the latest release iso and try it out!
 
-It contains
-    - terminal (kitty)
-    - nautilus (file manager)
-    - hyprland (defintely)
-    - screenshot taker
-    - neovim setup (nvchad)
-    - zsh autosyntax highlighting/suggestions extension
-    - waybar for showing top bar
-    - notification software
-    - audio pipewire
-    - brightnessctl
-    - pactl for changing volume
-    - wifi/bluetooth connectivity with ui (networkmanager)
-    - document viewer like pdf,txt
-    - image viewer
-    - have everything of minimum
-    - chrome 
-    - vscode 
-    - vlc
-    - obs-studio
-    - gcc
-    - more later
+### It contains
+- terminal (kitty)
+- nautilus (file manager)
+- hyprland (defintely)
+- screenshot taker
+- neovim setup (nvchad)
+- zsh autosyntax highlighting/suggestions extension
+- waybar for showing top bar
+- notification software
+- audio pipewire
+- brightnessctl
+- pactl for changing volume
+- wifi/bluetooth connectivity with ui (networkmanager)
+- document viewer like pdf,txt
+- image viewer
+- have everything of minimum
+- chrome 
+- vscode 
+- vlc
+- obs-studio
+- gcc
+- mounting of devices automatically
+- more later
 
 
 # Installation
