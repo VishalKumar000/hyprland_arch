@@ -7,6 +7,7 @@
 #### Building my own arch iso with hyprland as compositor for wayland and calamares as gui installer
 
 
+![showcase](wastes/demo.png)
 ### Features
 - Fully working hyprland setup
 - No need internet to install
