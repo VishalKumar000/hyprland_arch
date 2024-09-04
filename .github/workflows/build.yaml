@@ -144,7 +144,7 @@ jobs:
           # chmod ugo+rwx google-chrome
           chmod ugo+rwx yay
           mkdir /.cache
-          chmod ugo+rwx /.cache
+          chmod ugo+rwx -R /.cache
 
 
       # - name: Building chrome with makepkg
@@ -156,7 +156,7 @@ jobs:
         run: |
             cd yay
             # export GOFLAGS=-buildvcs=false
-            sudo -u nobody makepkg -s -buildvsc=false --noconfirm
+            sudo -u nobody makepkg -s  --noconfirm
 
       - name: Copying  yay into offline_package
         run: |
