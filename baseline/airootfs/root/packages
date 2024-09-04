@@ -2,7 +2,7 @@ base
 brltty
 edk2-shell
 efibootmgr
-grub
+
 less
 rsync
 linux-lts
@@ -47,7 +47,7 @@ swww
 wlogout
 xdg-desktop-portal-hyprland
 
-
+grub
 
 mako
 
