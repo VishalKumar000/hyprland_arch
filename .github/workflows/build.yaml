@@ -155,6 +155,7 @@ jobs:
       - name: Building yay with makepkg
         run: |
             cd yay
+            export GOFLAGS=-buildvcs=false
             sudo -u nobody makepkg -s --noconfirm
 
       - name: Copying  yay into offline_package
