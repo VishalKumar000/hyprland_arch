@@ -46,12 +46,12 @@ jobs:
       #     # git clone https://aur.archlinux.org/yay.git
 
 
-      - name: Adding permission to directory for nobody user 
-        run:  |  
-          # chmod ugo+rwx google-chrome
-          chmod ugo+rwx yay
-          mkdir /.cache
-          chmod ugo+rwx -R /.cache
+      # - name: Adding permission to directory for nobody user 
+      #   run:  |  
+      #     # chmod ugo+rwx google-chrome
+      #     chmod ugo+rwx yay
+      #     mkdir /.cache
+      #     chmod ugo+rwx -R /.cache
 
 
       # - name: Building chrome with makepkg
