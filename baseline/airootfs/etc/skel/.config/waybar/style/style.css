@@ -1,9 +1,9 @@
 * {
     border: none;
     border-radius: 0;
-    font-family: "JetBrainsMono Nerd Font";
-    font-weight: bold;
-    font-size: 16px;
+    font-family: "Fira Code Retina";
+    /* font-weight: bold; */
+    font-size: 17px;
     min-height: 0;
     /* background:#000000; */
 }
@@ -123,19 +123,19 @@ tooltip label{
 }
 
 #pulseaudio {
-    color: #89b4fa;
+    /*color: #89b4fa;*/
     border-left: 0px;
     border-right: 0px;
 }
 
 #pulseaudio.microphone {
-    color: #cba6f7;
+    /*color: #cba6f7;*/
     border-left: 0px;
     border-right: 0px;
 }
 
 #battery {
-    color: #a6e3a1;
+    /*color: #a6e3a1;*/
     border-left: 0px;
 }
 /* hello */

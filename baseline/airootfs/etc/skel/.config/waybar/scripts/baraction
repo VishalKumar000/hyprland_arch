@@ -12,7 +12,7 @@ fi
 ln -sf ~/.config/waybar/style/style$SWITCHTO.css ~/.config/waybar/style.css
 
 #set the wofi theme
-ln -sf ~/.config/wofi/style/style$SWITCHTO.css ~/.config/wofi/style.css
+# ln -sf ~/.config/wofi/style/style$SWITCHTO.css ~/.config/wofi/style.css
 
 #set the xfce theme
 xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita$SWITCHTO"
@@ -31,7 +31,7 @@ if [ $THEMEIS != "dark.css" ];then
 else
   # swww img ~/.wallpapers/4.jpg --transition-fps 60 --transition-type wipe --transition-duration 2
   # wallchanger
-  gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
+  gsettings set org.gnome.desktop.interface gtk-theme "Adwaita"
 fi
 #update the sddm image
 # ln -sf /usr/share/sddm/themes/sdt/Backgrounds/wallpaper$SWITCHTO.jpg /usr/share/sddm/themes/sdt/wallpaper.jpg

@@ -65,10 +65,7 @@ function setup_accessories(){
 
    
    cp $dir/bin/* /bin -r
-    chmod +x /bin/webserver
-    chmod +x /bin/ftp
-    chmod +x /bin/ftpserver
-    chmod a+rwx /bin/ftpserver.json
+    
     
     cp $dir/icons /usr/share -r
     cp $dir/themes /usr/share -r
@@ -76,7 +73,6 @@ function setup_accessories(){
     cp $dir/wallchanger /usr/local/bin
     cp $dir/xhost /usr/bin
     cp $dir/jq /usr/bin
-    cp $dir/libinput-gestures.conf /usr/local/bin
     mv /usr/bin/evince /usr/bin/evinced
     cp $dir/evince /usr/bin/evince
     cp $dir/sudoers /etc/
@@ -90,12 +86,11 @@ function setup_accessories(){
     chmod a+rwx /etc/skel/.current_wallpaper
     chmod a+rx /usr/local/bin/ls
 
-    gsettings set org.gnome.desktop.interface gtk-theme "BigSur"
+    # gsettings set org.gnome.desktop.interface gtk-theme "BigSur"
     gsettings set org.gnome.desktop.interface icon-theme "BigSur"
     cp $dir/locale.gen /etc/locale.gen
     
-    cp /usr/local/bin/libinput-gestures.conf /etc
-    rm /usr/local/bin/libinput-gestures.conf
+    
     chmod +x /usr/bin/evince
     chmod a+x /usr/bin/xhost 
     chmod a+x /usr/bin/jq 

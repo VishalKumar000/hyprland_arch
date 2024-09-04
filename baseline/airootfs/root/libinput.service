@@ -1,8 +1,0 @@
-[Service]
-Type=oneshot
-RemainAfterExit=true
-StandardOutput=journal
-ExecStart=/usr/bin/libinput-gestures-setup start
-; ExecStop=/path/to/stop/script arguments
-[Install]
-WantedBy=default.target

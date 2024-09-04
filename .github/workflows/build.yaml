@@ -133,13 +133,16 @@ jobs:
         run: pacman -S --noconfirm  git base-devel  sudo fakeroot
       
 
-      - name: Cloning the chrome
+      - name: Cloning the chrome and yay
         run: |
           git clone https://aur.archlinux.org/google-chrome.git
+          git clone https://aur.archlinux.org/yay.git
 
 
       - name: Adding permission to directory for nobody user 
-        run:  chmod ugo+rwx google-chrome
+        run:  |  
+          chmod ugo+rwx google-chrome
+          chmod ugo+rwx yay
 
 
       - name: Building chrome with makepkg
@@ -147,9 +150,15 @@ jobs:
             cd google-chrome
             sudo -u nobody makepkg -s --noconfirm
 
-      - name: creating a local repo for pacman of chrome
+      - name: Building yay with makepkg
+        run: |
+            cd yay
+            sudo -u nobody makepkg -s --noconfirm
+
+      - name: Copying chrome and yay into offline_package
         run: |
             cp google-chrome/google-chrome*.tar.zst baseline/airootfs/root/offline_packages
+            cp yay/yay*.tar.zst baseline/airootfs/root/offline_packages
    
       - name: getting all packages fully offline
         run: |

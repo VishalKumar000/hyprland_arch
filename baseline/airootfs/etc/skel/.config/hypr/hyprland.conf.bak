@@ -28,16 +28,13 @@ exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESK
 exec-once = waybar # The top bar
 exec-once = blueman-applet # Systray app for BT
 exec-once = nm-applet --indicator # Systray app for Network/Wifi
-# exec-once = libinput-gestures-setup start
+exec-once = libinput-gestures-setup start
 exec-once = /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 # used for user sudo graphical elevation
 exec = ~/.config/hypr/scripts/bgaction # Sets the background based on theme
 exec-once = wl-paste --watch cliphist store
 
 exec-once = swayidle -w timeout 1800 'swaylock -f -c 000000' timeout 1805 'hyprctl dispatch dpms off' timeout 1806 'systemctl suspend' resume 'hyprctl dispatch dpms on"' before-sleep 'swaylock -f -c 000000'
 # For all categories, see https://wiki.hyprland.org/Configuring/Variables/
-
-env = XCURSOR_SIZE,24
-
 input {
 
     kb_layout = us
@@ -47,7 +44,7 @@ input {
     kb_rules =
     scroll_method=2fg
 
-    sensitivity = 0.8 # -1.0 - 1.0, 0 means no modification.
+    sensitivity = 1 # -1.0 - 1.0, 0 means no modification.
     # accel_profile=adaptive
     # force_no_accel=true
     # accel_profile=adaptive
@@ -60,9 +57,9 @@ input {
     }
 
     touchdevice{
-        # repeat_rate=70
-        # repeat_delay=300 
-        }
+        repeat_rate=70
+        repeat_delay=200
+      }
 
 }
 
@@ -74,16 +71,14 @@ general {
     border_size = 2
     #col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
     col.active_border=rgb(cdd6f4)
-    # cursor_inactive_timeout= 120
-    # resize_on_border = true
-    # hover_icon_on_border=true
+    cursor_inactive_timeout= 120
+    #resize_on_border = true
+    hover_icon_on_border=false
     # no_focus_fallback = true
-    # col.active_border=rgb(ffffff)
-    # col.inactive_border = rgba(595959aa)
-    # col.group_border_active = rgb(cdd6f4)
-    col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
-    # col.inactive_border = rgba(595959aa)
-    # col.group_border = rgba(595959aa)
+    # col.active_border=rgb(ffff00)
+    col.inactive_border = rgba(595959aa)
+    col.group_border_active = rgb(cdd6f4)
+    col.group_border = rgba(595959aa)
 
     # layout = dwindle
 }
@@ -103,9 +98,9 @@ decoration {
 
     # dim_inactive = true
     # dim_strength=0.2
-    rounding = 8
-    # blur = true
-    # blur_size = 8
+    rounding = 5
+    blur = false
+    blur_size = 5
     # blur_passes = 0
     # blur_new_optimizations = on
 
@@ -126,10 +121,9 @@ animations {
     # animation = border, 1, 10, default
     # animation = fade, 1, 7, default
     # animation = workspaces, 1, 6, default
-    # bezier = myBezier, 0.10, 0.9, 0.1, 1.05
-    bezier = myBezier, 0.05, 0.9, 0.1, 1.05
+    bezier = myBezier, 0.10, 0.9, 0.1, 1.05
     #
-    animation = windows, 1, 3, myBezier, slide
+    animation = windowsIn, 1, 3, myBezier, slide
     animation = windowsOut, 1, 3, myBezier, slide
     animation = border, 1, 3, default
     animation = fade, 1, 6, default
@@ -141,12 +135,11 @@ dwindle {
     # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
     pseudotile = yes # master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
     preserve_split = yes # you probably want this
-    default_split_ratio = 1
 }
 
 master {
     # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
-    # new_is_master = true
+    new_is_master = true
 }
 
 gestures {
@@ -159,7 +152,7 @@ gestures {
 # Example per-device config
 # See https://wiki.hyprland.org/Configuring/Keywords/#executing for more
 device:epic mouse V1 {
-    # sensitivity = -0.5
+    sensitivity = -0.5
 }
 
 # Example windowrule v1
@@ -185,15 +178,12 @@ windowrule = center,title:(Java)
 # windowrulev2 = float,class:^(Eog)$
 
 
-windowrulev2 = opacity 1.0 0.9,class:^(kitty)$
+windowrulev2 = opacity 0.8 0.8,class:^(kitty)$
 windowrulev2=float,class:^(org.gnome.Calculator)$
-windowrulev2=float,class:^(org.gnome.Nautilus)$
-windowrulev2=float,class:^(org.kde.dolphin)$
-windowrulev2=float,class:^(eog)$
 windowrulev2 = animation popin,class:^(kitty)$,title:^(update-sys)$
 # windowrulev2 = animation popin,class:^(thunar)$
 # windowrulev2 = opacity 0.8 0.8,class:^(thunar)$
-#windowrulev2 = opacity 0.9 0.9,class:^(code-oss)$
+windowrulev2 = opacity 0.9 0.9,class:^(code-oss)$
 windowrulev2 = animation popin,class:^(code-oss)$
 # windowrulev2 = float,class:^(PacketTracer)$,title:^()$
 windowrulev2 = animation slide,class:^(wofi)$
@@ -209,8 +199,8 @@ bindl=,switch:off:Lid Switch,exec,systemctl suspend
 # bindl=,switch:off:Lid Switch,exec,systemctl suspend
 # bindl=,switch:on:Lid Switch,exec,hyprctl keyword monitor "eDP-1, disable"
 # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
-binde = , XF86MonBrightnessDown , exec, brightnessctl set 10%-
-binde = , XF86MonBrightnessUp , exec, brightnessctl set 10%+
+# binde = , XF86MonBrightnessDown , exec, brightnessctl set 10%-
+# binde = , XF86MonBrightnessUp , exec, brightnessctl set 10%+
 # binde = , XF86AudioLowerVolume , exec, pamixer -d 5
 # binde = , XF86AudioRaiseVolume , exec, pamixer -i 5
 bind = $mainMod, ESCAPE , exec, swaylock& disown %1
@@ -218,7 +208,7 @@ bind = $mainMod, ESCAPE , exec, swaylock& disown %1
 
 bind = $mainMod, Return, exec, kitty  # open the terminal
 bind = $mainMod, T, exec, kitty  # open the terminal
-bind = $mainMod, Q, killactive, # close the active window
+bind = $mainMod, X, killactive, # close the active window
 #bind = $mainMod, L, exec, swaylock # Lock the screen
 bind = $mainMod, R, exec, wlogout -b 3 --protocol layer-shell # show the logout window
 bind = $mainMod SHIFT, Q, exit, # Exit Hyprland all together no (force quit Hyprland)
@@ -227,14 +217,14 @@ bind = $mainMod, Y, togglefloating, # Allow a window to float
 bind = $mainMod, SPACE, exec, wofi # Show the graphical app launcher
 # bind = $mainMod,X, cyclenext # Show the graphical app launcher
 # bind = $mainMod,X, bringactivetotop # Show the graphical app launcher
-bind = $mainMod, U, pseudo, # dwindle
+# bind = $mainMod, U, pseudo, # dwindle
 bind = $mainMod, B,exec, pkill waybar || waybar&, # dwindle
 bind = $mainMod, O, togglesplit, # dwindle
 bind = $mainMod, M, fullscreen,1 # dwindle
 bind = $mainMod, A, exec, cliphist list | wofi -dmenu | cliphist decode | wl-copy # open clipboard manager
 
 
-bind = $mainMod, C, exec, firefox # dwindle
+bind = $mainMod, C, exec, google-chrome-stable # dwindle
 bind = $mainMod, V, exec, code --password-store="gnome" # dwindle
 bind = $mainMod, E, exec, wallchanger  # dwindle
 bind = $mainMod, S, exec, grim  -g  "0,0 $(xrandr | awk '/ connected/{print $3}' | awk -F '+' '{print $1}')" -c - | swappy -f - -o "Pictures/$(date +'%Y-%h-%d %I-%M-%S_%P').png" # take a screenshot
@@ -272,8 +262,6 @@ bind = $mainMod SHIFT, 8, movetoworkspace, 8
 bind = $mainMod SHIFT, 9, movetoworkspace, 9
 bind = $mainMod SHIFT, 0, movetoworkspace, 10
 
-
-
 # Scroll through existing workspaces with mainMod + scroll
 bind = $mainMod, P, workspace, e+1
 bind = $mainMod, I, workspace, e-1
@@ -289,5 +277,3 @@ source = ~/.config/hypr/media-binds.conf
 source = ~/.config/hypr/env_var.conf
 source = ~/.config/hypr/custom_keybinding.conf
 
-
-# windowrulev2=float,class:.*

@@ -12,14 +12,12 @@ amd-ucode
 intel-ucode
 base-devel
 mkinitcpio
-paru
 sudo
 syslinux
 croc
 xf86-video-amdgpu
 xf86-video-intel
 gnome-system-monitor
-gohttpserver-bin
 gnome-calculator
 gnome-text-editor
 gnome-sound-recorder
@@ -39,22 +37,19 @@ swappy
 wofi
 
 
-hyprland-bin
+hyprland
 icons-in-terminal
 plymouth-theme-aregression
-sddm-git
+sddm
 sddm-sugar-candy-git
 swaylock-effects
 swww
 wlogout
-xdg-desktop-portal-hyprland-git
+xdg-desktop-portal-hyprland
 yay-git
-libinput-gestures
-
 
 
 mako
-
 
 
 swayidle
