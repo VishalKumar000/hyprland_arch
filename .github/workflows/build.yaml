@@ -143,6 +143,7 @@ jobs:
         run:  |  
           # chmod ugo+rwx google-chrome
           chmod ugo+rwx yay
+          chmod /.cache
 
 
       # - name: Building chrome with makepkg
