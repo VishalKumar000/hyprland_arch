@@ -37,13 +37,13 @@ jobs:
           usermod -aG wheel nobody
 
       - name: Installing dependency needed for makepkg
-        run: pacman -S --noconfirm  git base-devel  sudo fakeroot
+        run: pacman -S --noconfirm  git base-devel grub sudo fakeroot
       
 
-      - name: Cloning the  yay
-        run: |
-          # git clone https://aur.archlinux.org/google-chrome.git
-          git clone https://aur.archlinux.org/yay.git
+      # - name: Cloning the  yay
+      #   run: |
+      #     # git clone https://aur.archlinux.org/google-chrome.git
+      #     # git clone https://aur.archlinux.org/yay.git
 
 
       - name: Adding permission to directory for nobody user 

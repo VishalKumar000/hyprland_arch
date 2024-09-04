@@ -9,4 +9,3 @@ arch-install-scripts
 dosfstools
 neovim
 rsync
-grub
